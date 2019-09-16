@@ -413,12 +413,14 @@ public class TestRunnerAction extends AbstractAction
   }
 
   /**
-   * Returns whether caching has been deemed safe by looking at the previous test run (for local
-   * caching). If the previous run is not present, return "true" here, as remote execution caching
-   * should be safe.
+   * Returns whether caching should be done.
    */
   public boolean shouldCacheResult() {
-    return !executeUnconditionally();
+    return canBeCached(
+        testConfiguration.cacheTestResults(),
+        null,
+        testProperties.isExternal(),
+        testConfiguration.getRunsPerTestForLabel(getOwner().getLabel()));
   }
 
   @Override
